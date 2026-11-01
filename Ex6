@@ -1,0 +1,172 @@
+Program to Implement Student Database Management.
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 100        // Maximum number of students
+#define SUBJECTS 3     // Total number of subjects per student
+
+// Define a structure to store student details
+struct Student {
+    int rollNo;              // Roll number of the student
+    char name[50];           // Name of the student
+    int marks[SUBJECTS];     // Marks in 3 subjects
+    int total;               // Total marks of all subjects
+    float average;           // Average marks
+};
+
+// Global array to store all students and variable to count them
+struct Student students[MAX];
+int count = 0;
+
+// Function to add a new student record
+void addStudent() {
+    if (count >= MAX) {
+        printf("No space to add more students.\n");
+        return;
+    }
+
+    struct Student s; // Temporary variable to store new student data
+
+    // Input student roll number
+    printf("\nEnter Roll No: ");
+    scanf("%d", &s.rollNo);
+
+    // Input student name
+    printf("Enter Name: ");
+    scanf(" %[^\n]", s.name); // %[^\n] allows reading full name with spaces
+
+    // Input marks for each subject
+    s.total = 0;
+    printf("Enter marks for %d subjects:\n", SUBJECTS);
+    int i;
+    for (i = 0; i < SUBJECTS; i++) {
+        printf("Subject %d: ", i + 1);
+        scanf("%d", &s.marks[i]);
+        s.total += s.marks[i]; // Add marks to total
+    }
+
+    // Calculate average marks
+    s.average = s.total / (float)SUBJECTS;
+
+    // Add the student record to the global array
+    students[count++] = s;
+
+    printf("Student added successfully!\n");
+}
+
+// Function to display all student records
+void displayStudents() {
+    if (count == 0) {
+        printf("No students to display.\n");
+        return;
+    }
+
+    // Print table header
+    printf("\n%-5s %-20s %-10s %-10s\n", "Roll", "Name", "Total", "Average");
+
+    int i;
+    // Loop through all students and display their details
+    for (i = 0; i < count; i++) {
+        printf("%-5d %-20s %-10d %-10.2f\n",
+               students[i].rollNo,
+               students[i].name,
+               students[i].total,
+               students[i].average);
+    }
+}
+
+// Function to search for a student by roll number
+void searchStudent() {
+    int roll;
+    printf("Enter Roll No to search: ");
+    scanf("%d", &roll);
+
+    int i;
+    // Loop through all student records to find a match
+    for (i = 0; i < count; i++) {
+        if (students[i].rollNo == roll) {
+            printf("\nStudent Found:\n");
+            printf("Name: %s\n", students[i].name);
+            printf("Total: %d\n", students[i].total);
+            printf("Average: %.2f\n", students[i].average);
+
+            // Print marks in each subject
+            printf("Marks: ");
+            int j;
+            for (j = 0; j < SUBJECTS; j++) {
+                printf("%d ", students[i].marks[j]);
+            }
+            printf("\n");
+            return; // Exit the function after finding the student
+        }
+    }
+
+    // If no match found
+    printf("Student with Roll No %d not found.\n", roll);
+}
+
+// Function to sort students by their average marks in descending order
+void sortStudents() {
+    if (count < 2) {
+        printf("Not enough students to sort.\n");
+        return;
+    }
+
+    int i, j;
+    // Using Bubble Sort algorithm to sort by average marks
+    for (i = 0; i < count - 1; i++) {
+        for (j = 0; j < count - i - 1; j++) {
+            if (students[j].average < students[j + 1].average) {
+                // Swap records if not in correct order
+                struct Student temp = students[j];
+                students[j] = students[j + 1];
+                students[j + 1] = temp;
+            }
+        }
+    }
+
+    printf("Students sorted by average marks.\n");
+}
+
+// Main function: Menu-driven program
+int main() {
+    int choice;
+
+    do {
+        // Display the main menu
+        printf("\n--- Student Management System ---\n");
+        printf("1. Add Student\n");
+        printf("2. Display All Students\n");
+        printf("3. Search by Roll Number\n");
+        printf("4. Sort by Average Marks\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        // Perform operation based on user choice
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                displayStudents();
+                break;
+            case 3:
+                searchStudent();
+                break;
+            case 4:
+                sortStudents();
+                break;
+            case 5:
+                printf("Exiting...\n");
+                break;
+            default:
+                printf("Invalid choice. Try again.\n");
+        }
+
+    } while (choice != 5); // Repeat menu until user chooses to exit
+
+    return 0;
+}
+
+Output:
