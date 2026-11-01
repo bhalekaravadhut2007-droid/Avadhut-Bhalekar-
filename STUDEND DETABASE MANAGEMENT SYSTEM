@@ -1,71 +1,55 @@
-Program to Implement Student Database Management.
+
 #include <stdio.h>
 #include <string.h>
 
-#define MAX 100        // Maximum number of students
-#define SUBJECTS 3     // Total number of subjects per student
-
-// Define a structure to store student details
+#define MAX 100       
+#define SUBJECTS 3     
 struct Student {
-    int rollNo;              // Roll number of the student
-    char name[50];           // Name of the student
-    int marks[SUBJECTS];     // Marks in 3 subjects
-    int total;               // Total marks of all subjects
-    float average;           // Average marks
+    int rollNo;              
+    char name[50];           
+    int marks[SUBJECTS];     
+    int total;               
+    float average;           
 };
 
-// Global array to store all students and variable to count them
 struct Student students[MAX];
 int count = 0;
 
-// Function to add a new student record
+
 void addStudent() {
     if (count >= MAX) {
         printf("No space to add more students.\n");
         return;
     }
 
-    struct Student s; // Temporary variable to store new student data
-
-    // Input student roll number
+    struct Student s; 
     printf("\nEnter Roll No: ");
     scanf("%d", &s.rollNo);
-
-    // Input student name
     printf("Enter Name: ");
     scanf(" %[^\n]", s.name); // %[^\n] allows reading full name with spaces
-
-    // Input marks for each subject
     s.total = 0;
     printf("Enter marks for %d subjects:\n", SUBJECTS);
     int i;
     for (i = 0; i < SUBJECTS; i++) {
         printf("Subject %d: ", i + 1);
         scanf("%d", &s.marks[i]);
-        s.total += s.marks[i]; // Add marks to total
+        s.total += s.marks[i]; 
     }
 
-    // Calculate average marks
     s.average = s.total / (float)SUBJECTS;
 
-    // Add the student record to the global array
     students[count++] = s;
 
     printf("Student added successfully!\n");
 }
-
-// Function to display all student records
 void displayStudents() {
     if (count == 0) {
         printf("No students to display.\n");
         return;
     }
-
-    // Print table header
     printf("\n%-5s %-20s %-10s %-10s\n", "Roll", "Name", "Total", "Average");
 
     int i;
-    // Loop through all students and display their details
     for (i = 0; i < count; i++) {
         printf("%-5d %-20s %-10d %-10.2f\n",
                students[i].rollNo,
@@ -74,15 +58,13 @@ void displayStudents() {
                students[i].average);
     }
 }
-
-// Function to search for a student by roll number
 void searchStudent() {
     int roll;
     printf("Enter Roll No to search: ");
     scanf("%d", &roll);
 
     int i;
-    // Loop through all student records to find a match
+
     for (i = 0; i < count; i++) {
         if (students[i].rollNo == roll) {
             printf("\nStudent Found:\n");
@@ -90,22 +72,20 @@ void searchStudent() {
             printf("Total: %d\n", students[i].total);
             printf("Average: %.2f\n", students[i].average);
 
-            // Print marks in each subject
+            
             printf("Marks: ");
             int j;
             for (j = 0; j < SUBJECTS; j++) {
                 printf("%d ", students[i].marks[j]);
             }
             printf("\n");
-            return; // Exit the function after finding the student
+            return; 
         }
     }
 
     // If no match found
     printf("Student with Roll No %d not found.\n", roll);
 }
-
-// Function to sort students by their average marks in descending order
 void sortStudents() {
     if (count < 2) {
         printf("Not enough students to sort.\n");
@@ -128,7 +108,6 @@ void sortStudents() {
     printf("Students sorted by average marks.\n");
 }
 
-// Main function: Menu-driven program
 int main() {
     int choice;
 
@@ -142,8 +121,6 @@ int main() {
         printf("5. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
-
-        // Perform operation based on user choice
         switch (choice) {
             case 1:
                 addStudent();
@@ -164,9 +141,7 @@ int main() {
                 printf("Invalid choice. Try again.\n");
         }
 
-    } while (choice != 5); // Repeat menu until user chooses to exit
+    } while (choice != 5); 
 
     return 0;
 }
-
-Output:
