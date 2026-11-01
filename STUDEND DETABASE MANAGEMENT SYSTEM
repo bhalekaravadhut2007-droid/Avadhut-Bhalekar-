@@ -26,7 +26,7 @@ void addStudent() {
     printf("\nEnter Roll No: ");
     scanf("%d", &s.rollNo);
     printf("Enter Name: ");
-    scanf(" %[^\n]", s.name); // %[^\n] allows reading full name with spaces
+    scanf(" %[^\n]", s.name); 
     s.total = 0;
     printf("Enter marks for %d subjects:\n", SUBJECTS);
     int i;
@@ -83,7 +83,7 @@ void searchStudent() {
         }
     }
 
-    // If no match found
+
     printf("Student with Roll No %d not found.\n", roll);
 }
 void sortStudents() {
@@ -93,7 +93,7 @@ void sortStudents() {
     }
 
     int i, j;
-    // Using Bubble Sort algorithm to sort by average marks
+
     for (i = 0; i < count - 1; i++) {
         for (j = 0; j < count - i - 1; j++) {
             if (students[j].average < students[j + 1].average) {
@@ -112,7 +112,7 @@ int main() {
     int choice;
 
     do {
-        // Display the main menu
+
         printf("\n--- Student Management System ---\n");
         printf("1. Add Student\n");
         printf("2. Display All Students\n");
